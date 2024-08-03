@@ -14,33 +14,27 @@
             margin: 0;
             background-color: #f0f0f0;
             padding: 20px;
+            box-sizing: border-box;
         }
         .crossword {
             display: grid;
-            grid-template-columns: repeat(19, 30px);
+            grid-template-columns: repeat(19, 1fr);
             gap: 1px;
             background-color: #000;
             padding: 1px;
             border: 2px solid #000;
             margin-bottom: 20px;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         .cell {
-            width: 30px;
-            height: 30px;
+            aspect-ratio: 1;
             background-color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 12px;
             position: relative;
-            border-right: 1px solid #000;
-            border-bottom: 1px solid #000;
-        }
-        .cell:nth-child(19n) {
-            border-right: none;
-        }
-        .crossword > .cell:nth-last-child(-n+19) {
-            border-bottom: none;
         }
         .cell-number {
             position: absolute;
@@ -54,7 +48,7 @@
             height: 100%;
             border: none;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             padding: 0;
             margin: 0;
@@ -65,7 +59,7 @@
         }
         .clues {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 10px;
             width: 100%;
             max-width: 800px;
@@ -78,16 +72,21 @@
             min-height: 30px;
         }
         .hidden {
-            visibility: hidden;
+            display: none;
         }
         .passcode-section {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             margin-bottom: 20px;
+            justify-content: center;
         }
         .passcode-input {
             padding: 5px;
-            width: 150px;
+            width: 100px;
+        }
+        #unlock-btn {
+            padding: 5px 10px;
         }
     </style>
 </head>
@@ -151,6 +150,9 @@
                     input.maxLength = 1;
                     input.dataset.row = row;
                     input.dataset.col = col;
+                    input.inputMode = "text";
+                    input.autocomplete = "off";
+                    input.autocapitalize = "characters";
                     cellElement.appendChild(input);
 
                     if (firstWhiteSquare) {
@@ -198,6 +200,26 @@
                     clueElements[i].classList.remove('hidden');
                 }
             }
+        });
+
+        // Handle input on mobile
+        crossword.addEventListener('input', (e) => {
+            if (e.target.tagName === 'INPUT') {
+                if (e.target.value.length === 1) {
+                    const currentRow = parseInt(e.target.dataset.row);
+                    const currentCol = parseInt(e.target.dataset.col);
+                    const nextInput = crossword.querySelector(`input[data-row="${currentRow}"][data-col="${currentCol + 1}"]`) ||
+                                      crossword.querySelector(`input[data-row="${currentRow + 1}"][data-col="0"]`);
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            }
+        });
+
+        // Prevent zoom on input focus for iOS devices
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
         });
     </script>
 </body>
