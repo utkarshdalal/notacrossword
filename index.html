@@ -69,6 +69,7 @@
             gap: 10px;
             width: 100%;
             max-width: 800px;
+            margin-top: 20px;
         }
         .clue {
             background-color: #ddd;
@@ -80,9 +81,9 @@
             visibility: hidden;
         }
         .passcode-section {
-            margin-top: 20px;
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
         }
         .passcode-input {
             padding: 5px;
@@ -92,13 +93,13 @@
 </head>
 <body>
     <div class="crossword" id="crossword"></div>
-    <div class="clues" id="clues"></div>
     <div class="passcode-section">
         <input type="text" class="passcode-input" id="passcode1" placeholder="Passcode 1">
         <input type="text" class="passcode-input" id="passcode2" placeholder="Passcode 2">
         <input type="text" class="passcode-input" id="passcode3" placeholder="Passcode 3">
         <button id="unlock-btn">Unlock Clues</button>
     </div>
+    <div class="clues" id="clues"></div>
 
     <script>
         const crossword = document.getElementById('crossword');
