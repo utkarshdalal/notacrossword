@@ -74,6 +74,10 @@
         .hidden {
             display: none;
         }
+        .greyed-out {
+            color: #666;
+            text-decoration: line-through;
+        }
         .passcode-section {
             display: flex;
             flex-wrap: wrap;
@@ -191,11 +195,17 @@
                 }
             }
             if (passcode2 === 'brown cat') {
+                for (let i = 0; i < clueElements.length; i += 3) {
+                    clueElements[i].classList.add('greyed-out');
+                }
                 for (let i = 1; i < clueElements.length; i += 3) {
                     clueElements[i].classList.remove('hidden');
                 }
             }
             if (passcode3 === 'billy') {
+                for (let i = 1; i < clueElements.length; i += 3) {
+                    clueElements[i].classList.add('greyed-out');
+                }
                 for (let i = 2; i < clueElements.length; i += 3) {
                     clueElements[i].classList.remove('hidden');
                 }
